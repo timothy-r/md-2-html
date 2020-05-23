@@ -8,17 +8,20 @@ const { Remarkable } = require('remarkable');
 const fs = require('fs');
 const Handlebars = require('handlebars');
 
-const templateName = 'templates/main.tpl';
-const templateContents = fs.readFileSync(templateName, 'utf8');
-const template = Handlebars.compile(templateContents);
 
 const input = process.argv[2];
+
 const mdContents = fs.readFileSync(input, 'utf8');
 
 // use the input file name without extension as the document title
 const items = path.parse(input);
 
 var variables = {"title": items['name']};
+
+
+const templateName = 'templates/main.tpl';
+const templateContents = fs.readFileSync(templateName, 'utf8');
+const template = Handlebars.compile(templateContents);
 
 const md = new Remarkable();
 
