@@ -4,6 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "markdown-to-html": "^0.0.13"
+    "handlebars": "^4.7.6",
+    "markdown-to-html": "^0.0.13",
+    "remarkable": "^2.0.0"
   }
 }
