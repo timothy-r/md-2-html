@@ -16,12 +16,9 @@ md.bufmax = 2048;
 
 const opts = {title: docTitle, stylesheet: 'styles/styles.css'};
 
-// Write a header.
-//console.log('Starting...');
 
 // Write a trailer at eof.
 md.once('end', function() {
-  // console.log('Done...');
 });
 
 md.render(input, opts, function(err) {
