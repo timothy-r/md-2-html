@@ -2,29 +2,35 @@
  * take an md file as input
  * produce a HTML version
  */
+
 const path = require('path');
+const { Remarkable } = require('remarkable');
+const fs = require('fs');
+const Handlebars = require('handlebars');
+
+const templateName = 'templates/main.tpl';
+const templateContents = fs.readFileSync(templateName, 'utf8');
+const template = Handlebars.compile(templateContents);
 
 const input = process.argv[2];
+const mdContents = fs.readFileSync(input, 'utf8');
 
 // use the input file name without extension as the document title
 const items = path.parse(input);
-const docTitle = items['name'];
 
-const Markdown = require('markdown-to-html').Markdown;
-const md = new Markdown();
-md.bufmax = 2048;
+var variables = {"title": items['name']};
 
-const opts = {title: docTitle, stylesheet: 'styles/styles.css'};
+const md = new Remarkable();
 
+try {
+    variables["contents"] = md.render(mdContents);
 
-// Write a trailer at eof.
-md.once('end', function() {
-});
+    // now template it
+    const result = template(variables);
 
-md.render(input, opts, function(err) {
-  if (err) {
-    console.error('>>> ' + err);
-    process.exit();
-  }
-  md.pipe(process.stdout);
-});
+    // print out the results
+    console.log(result);
+
+} catch(e) {
+    console.log('Error:', e.stack);
+}
