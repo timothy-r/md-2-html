@@ -10,25 +10,25 @@ const Handlebars = require('handlebars');
 
 const input = process.argv[2];
 
-// if this fails, stop & show error
-const mdContents = fs.readFileSync(input, 'utf8');
-
 // use the input file name without extension as the document title
 const items = path.parse(input);
 
-var variables = {"title": items['name']};
-
-
-const templateName = 'templates/main.tpl';
-const templateContents = fs.readFileSync(templateName, 'utf8');
-// if this fails, stop & show error
-const template = Handlebars.compile(templateContents);
+const templateName = 'templates/main-2.tpl';
 
 const md = new Remarkable();
 
 try {
+    const mdContents = fs.readFileSync(input, 'utf8');
+    const templateContents = fs.readFileSync(templateName, 'utf8');
+    const template = Handlebars.compile(templateContents);
+
+    var variables = {
+        "title": items['name'], 
+        "styleSheet": "styles/styles.css",
+	"contents": md.render(mdContents)
+    };
     // if this fails, stop & show error
-    variables["contents"] = md.render(mdContents);
+    //variables["contents"] = md.render(mdContents);
 
     // now template it
     // if this fails, stop & show error
